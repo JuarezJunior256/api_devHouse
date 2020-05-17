@@ -4,30 +4,34 @@ import cors from 'cors';
 import path from 'path';
 import routes from './routes';
 
+class App {
+  constructor() {
+    this.server = express();
 
-class App{
-   
-    constructor(){
-        this.server = express();
+    mongoose.connect(
+      'mongodb+srv://juniorDev:123789456@devhouse-cdjfh.mongodb.net/devhouse?retryWrites=true&w=majority',
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      }
+    );
 
-        mongoose.connect('mongodb+srv://juniorDev:123789456@devhouse-cdjfh.mongodb.net/devhouse?retryWrites=true&w=majority' ,{
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+    this.middlewares();
+    this.routes();
+  }
 
-        this.middlewares();
-        this.routes();
-    }
+  middlewares() {
+    this.server.use(cors());
+    this.server.use(
+      '/files',
+      express.static(path.resolve(__dirname, '..', 'uploads'))
+    );
+    this.server.use(express.json());
+  }
 
-    middlewares() {
-        this.server.use(cors());
-        this.server.use('/files', express.static(path.resolve(__dirname, '..', 'uploads')));
-        this.server.use(express.json());
-    }
-
-    routes() {
-        this.server.use(routes);
-    }
+  routes() {
+    this.server.use(routes);
+  }
 }
 
 export default new App().server;

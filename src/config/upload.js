@@ -2,13 +2,13 @@ import multer from 'multer';
 import path from 'path';
 
 export default {
-    storage: multer.diskStorage({
-        destination: path.resolve(__dirname, '..', '..', 'uploads'), // armazenando na pasta de uploads
-        filename: (req, file, callback) => {
-            const ext = path.extname(file.originalname);
-            const name = path.basename(file.originalname, ext);
+  storage: multer.diskStorage({
+    destination: path.resolve(__dirname, '..', '..', 'uploads'), // armazenando na pasta de uploads
+    filename: (req, file, callback) => {
+      const ext = path.extname(file.originalname);
+      const name = path.basename(file.originalname, ext);
 
-            callback(null, `${name}-${Date.now()}${ext}`) // novo nome do arquivo de upload
-        },
-    })
-}
+      callback(null, `${name}-${Date.now()}${ext}`); // novo nome do arquivo de upload
+    },
+  }),
+};
